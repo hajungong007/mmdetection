@@ -1,208 +1,135 @@
+# MMDetection
 
-# mmdetection
+**News**: We released the technical report on [ArXiv](https://arxiv.org/abs/1906.07155).
+
+Documentation: https://mmdetection.readthedocs.io/
 
 ## Introduction
 
-mmdetection is an open source object detection toolbox based on PyTorch. It is
-a part of the open-mmlab project developed by [Multimedia Laboratory, CUHK](http://mmlab.ie.cuhk.edu.hk/).
+The master branch works with **PyTorch 1.3 to 1.5**.
+The old v1.x branch works with PyTorch 1.1 to 1.4, but v2.0 is strongly recommended for faster speed, higher performance, better design and more friendly usage.
+
+MMDetection is an open source object detection toolbox based on PyTorch. It is
+a part of the OpenMMLab project developed by [Multimedia Laboratory, CUHK](http://mmlab.ie.cuhk.edu.hk/).
+
+![demo image](demo/coco_test_12510.jpg)
 
 ### Major features
 
 - **Modular Design**
 
-  One can easily construct a customized object detection framework by combining different components.
+  We decompose the detection framework into different components and one can easily construct a customized object detection framework by combining different modules.
 
 - **Support of multiple frameworks out of box**
 
-  The toolbox directly supports popular detection frameworks, *e.g.* Faster RCNN, Mask RCNN, RetinaNet, etc.
+  The toolbox directly supports popular and contemporary detection frameworks, *e.g.* Faster RCNN, Mask RCNN, RetinaNet, etc.
 
-- **Efficient**
+- **High efficiency**
 
-  All basic bbox and mask operations run on GPUs now.
-  The training speed is about 5% ~ 20% faster than Detectron for different models.
+  All basic bbox and mask operations run on GPUs. The training speed is faster than or comparable to other codebases, including [Detectron2](https://github.com/facebookresearch/detectron2), [maskrcnn-benchmark](https://github.com/facebookresearch/maskrcnn-benchmark) and [SimpleDet](https://github.com/TuSimple/simpledet).
 
 - **State of the art**
 
-  This was the codebase of the *MMDet* team, who won the [COCO Detection 2018 challenge](http://cocodataset.org/#detection-leaderboard).
+  The toolbox stems from the codebase developed by the *MMDet* team, who won [COCO Detection Challenge](http://cocodataset.org/#detection-leaderboard) in 2018, and we keep pushing it forward.
 
-Apart from mmdetection, we also released a library [mmcv](https://github.com/open-mmlab/mmcv) for computer vision research,
-which is heavily depended on by this toolbox.
+Apart from MMDetection, we also released a library [mmcv](https://github.com/open-mmlab/mmcv) for computer vision research, which is heavily depended on by this toolbox.
 
 ## License
 
-This project is released under the [GPLv3 license](LICENSE).
+This project is released under the [Apache 2.0 license](LICENSE).
+
+## Changelog
+
+v2.0.0 was released in 6/5/2020.
+Please refer to [changelog.md](docs/changelog.md) for details and release history.
+A comparison between v1.x and v2.0 codebases can be found in [compatibility.md](docs/compatibility.md).
 
 ## Benchmark and model zoo
 
-We provide our baseline results and the comparision with Detectron, the most
-popular detection projects. Results and models are available in the [Model zoo](MODEL_ZOO.md).
+Supported methods and backbones are shown in the below table.
+Results and models are available in the [model zoo](docs/model_zoo.md).
+
+|                    | ResNet   | ResNeXt  | SENet    | VGG      | HRNet | RegNetX | Res2Net |
+|--------------------|:--------:|:--------:|:--------:|:--------:|:-----:|:--------:|:-----:|
+| RPN                | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| Fast R-CNN         | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| Faster R-CNN       | ✓        | ✓        | ☐        | ✗        | ✓     | ✓        | ✓     |
+| Mask R-CNN         | ✓        | ✓        | ☐        | ✗        | ✓     | ✓        | ✓     |
+| Cascade R-CNN      | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ✓     |
+| Cascade Mask R-CNN | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ✓     |
+| SSD                | ✗        | ✗        | ✗        | ✓        | ✗     | ✗        | ✗     |
+| RetinaNet          | ✓        | ✓        | ☐        | ✗        | ✓     | ✓        | ☐     |
+| GHM                | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| Mask Scoring R-CNN | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| Double-Head R-CNN  | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| Grid R-CNN (Plus)  | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| Hybrid Task Cascade| ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ✓     |
+| Libra R-CNN        | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| Guided Anchoring   | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| FCOS               | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| RepPoints          | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| Foveabox           | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| FreeAnchor         | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| NAS-FPN            | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| ATSS               | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| FSAF               | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| PAFPN              | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| NAS-FCOS           | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+| PISA               | ✓        | ✓        | ☐        | ✗        | ✓     | ☐        | ☐     |
+
+Other features
+- [x] [CARAFE](configs/carafe/README.md)
+- [x] [DCNv2](configs/dcn/README.md)
+- [x] [Group Normalization](configs/gn/README.md)
+- [x] [Weight Standardization](configs/gn+ws/README.md)
+- [x] [OHEM](configs/faster_rcnn/faster_rcnn_r50_fpn_ohem_1x_coco.py)
+- [x] [Soft-NMS](configs/faster_rcnn/faster_rcnn_r50_fpn_soft_nms_1x_coco.py)
+- [x] [Generalized Attention](configs/empirical_attention/README.md)
+- [x] [GCNet](configs/gcnet/README.md)
+- [x] [Mixed Precision (FP16) Training](configs/fp16/README.md)
+- [x] [InstaBoost](configs/instaboost/README.md)
+
+Some other methods are also supported in [projects using MMDetection](./docs/projects.md).
 
 ## Installation
 
-### Requirements
+Please refer to [install.md](docs/install.md) for installation and dataset preparation.
 
-- Linux (tested on Ubuntu 16.04 and CentOS 7.2)
-- Python 3.4+
-- PyTorch 0.4.1 and torchvision
-- Cython
-- [mmcv](https://github.com/open-mmlab/mmcv)
 
-### Install mmdetection
+## Get Started
 
-a. Install PyTorch 0.4.1 and torchvision following the [official instructions](https://pytorch.org/).
+Please see [getting_started.md](docs/getting_started.md) for the basic usage of MMDetection.
 
-b. Clone the mmdetection repository.
+## Contributing
 
-```shell
-git clone https://github.com/open-mmlab/mmdetection.git
-```
+We appreciate all contributions to improve MMDetection. Please refer to [CONTRIBUTING.md](.github/CONTRIBUTING.md) for the contributing guideline.
 
-c. Compile cuda extensions.
+## Acknowledgement
 
-```shell
-cd mmdetection
-pip install cython  # or "conda install cython" if you prefer conda
-./compile.sh  # or "PYTHON=python3 ./compile.sh" if you use system python3 without virtual environments
-```
+MMDetection is an open source project that is contributed by researchers and engineers from various colleges and companies. We appreciate all the contributors who implement their methods or add new features, as well as users who give valuable feedbacks.
+We wish that the toolbox and benchmark could serve the growing research community by providing a flexible toolkit to reimplement existing methods and develop their own new detectors.
 
-d. Install mmdetection (other dependencies will be installed automatically).
 
-```shell
-python(3) setup.py install  # add --user if you want to install it locally
-# or "pip install ."
-```
+## Citation
 
-Note: You need to run the last step each time you pull updates from github.
-The git commit id will be written to the version number and also saved in trained models.
-
-### Prepare COCO dataset.
-
-It is recommended to symlink the dataset root to `$MMDETECTION/data`.
+If you use this toolbox or benchmark in your research, please cite this project.
 
 ```
-mmdetection
-├── mmdet
-├── tools
-├── configs
-├── data
-│   ├── coco
-│   │   ├── annotations
-│   │   ├── train2017
-│   │   ├── val2017
-│   │   ├── test2017
-
-```
-
-> [Here](https://gist.github.com/hellock/bf23cd7348c727d69d48682cb6909047) is
-a script for setting up mmdetection with conda for reference.
-
-
-## Inference with pretrained models
-
-### Test a dataset
-
-- [x] single GPU testing
-- [x] multiple GPU testing
-- [x] visualize detection results
-
-We allow to run one or multiple processes on each GPU, e.g. 8 processes on 8 GPU
-or 16 processes on 8 GPU. When the GPU workload is not very heavy for a single
-process, running multiple processes will accelerate the testing, which is specified
-with the argument `--proc_per_gpu <PROCESS_NUM>`.
-
-
-To test a dataset and save the results.
-
-```shell
-python tools/test.py <CONFIG_FILE> <CHECKPOINT_FILE> --gpus <GPU_NUM> --out <OUT_FILE>
-```
-
-To perform evaluation after testing, add `--eval <EVAL_TYPES>`. Supported types are:
-
-- proposal_fast: eval recalls of proposals with our own codes. (supposed to get the same results as the official evaluation)
-- proposal: eval recalls of proposals with the official code provided by COCO.
-- bbox: eval box AP with the official code provided by COCO.
-- segm: eval mask AP with the official code provided by COCO.
-- keypoints: eval keypoint AP with the official code provided by COCO.
-
-For example, to evaluate Mask R-CNN with 8 GPUs and save the result as `results.pkl`.
-
-```shell
-python tools/test.py configs/mask_rcnn_r50_fpn_1x.py <CHECKPOINT_FILE> --gpus 8 --out results.pkl --eval bbox segm
-```
-
-It is also convenient to visualize the results during testing by adding an argument `--show`.
-
-```shell
-python tools/test.py <CONFIG_FILE> <CHECKPOINT_FILE> --show
-```
-
-### Test image(s)
-
-We provide some high-level apis (experimental) to test an image.
-
-```python
-import mmcv
-from mmcv.runner import load_checkpoint
-from mmdet.models import build_detector
-from mmdet.apis import inference_detector, show_result
-
-cfg = mmcv.Config.fromfile('configs/faster_rcnn_r50_fpn_1x.py')
-cfg.model.pretrained = None
-
-# construct the model and load checkpoint
-model = build_detector(cfg.model, test_cfg=cfg.test_cfg)
-_ = load_checkpoint(model, 'https://s3.ap-northeast-2.amazonaws.com/open-mmlab/mmdetection/models/faster_rcnn_r50_fpn_1x_20181010-3d1b3351.pth')
-
-# test a single image
-img = mmcv.imread('test.jpg')
-result = inference_detector(model, img, cfg)
-show_result(img, result)
-
-# test a list of images
-imgs = ['test1.jpg', 'test2.jpg']
-for i, result in enumerate(inference_detector(model, imgs, cfg, device='cuda:0')):
-    print(i, imgs[i])
-    show_result(imgs[i], result)
+@article{mmdetection,
+  title   = {{MMDetection}: Open MMLab Detection Toolbox and Benchmark},
+  author  = {Chen, Kai and Wang, Jiaqi and Pang, Jiangmiao and Cao, Yuhang and
+             Xiong, Yu and Li, Xiaoxiao and Sun, Shuyang and Feng, Wansen and
+             Liu, Ziwei and Xu, Jiarui and Zhang, Zheng and Cheng, Dazhi and
+             Zhu, Chenchen and Cheng, Tianheng and Zhao, Qijie and Li, Buyu and
+             Lu, Xin and Zhu, Rui and Wu, Yue and Dai, Jifeng and Wang, Jingdong
+             and Shi, Jianping and Ouyang, Wanli and Loy, Chen Change and Lin, Dahua},
+  journal= {arXiv preprint arXiv:1906.07155},
+  year={2019}
+}
 ```
 
 
-## Train a model
+## Contact
 
-mmdetection implements distributed training and non-distributed training,
-which uses `MMDistributedDataParallel` and `MMDataParallel` respectively.
-
-We suggest using distributed training even on a single machine, which is faster,
-and non-distributed training are left for debugging or other purposes.
-
-### Distributed training
-
-mmdetection potentially supports multiple launch methods, e.g., PyTorch’s built-in launch utility, slurm and MPI.
-
-We provide a training script using the launch utility provided by PyTorch.
-
-```shell
-./tools/dist_train.sh <CONFIG_FILE> <GPU_NUM> [optional arguments]
-```
-
-Supported arguments are:
-
-- --validate: perform evaluation every k (default=1) epochs during the training.
-- --work_dir <WORK_DIR>: if specified, the path in config file will be overwritten.
-
-### Non-distributed training
-
-```shell
-python tools/train.py <CONFIG_FILE> --gpus <GPU_NUM> --work_dir <WORK_DIR> --validate
-```
-
-Expected results in WORK_DIR:
-
-- log file
-- saved checkpoints (every k epochs, defaults=1)
-- a symbol link to the latest checkpoint
-
-
-## Technical details
-
-Some implementation details and project structures are described in the [technical details](TECHNICAL_DETAILS.md).
+This repo is currently maintained by Kai Chen ([@hellock](http://github.com/hellock)), Yuhang Cao ([@yhcao6](https://github.com/yhcao6)), Wenwei Zhang ([@ZwwWayne](https://github.com/ZwwWayne)),
+Jiarui Xu ([@xvjiarui](https://github.com/xvjiarui)). Other core developers include Jiangmiao Pang ([@OceanPang](https://github.com/OceanPang)) and Jiaqi Wang ([@myownskyW7](https://github.com/myownskyW7)).

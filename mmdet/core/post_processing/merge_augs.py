@@ -1,6 +1,5 @@
-import torch
-
 import numpy as np
+import torch
 
 from mmdet.ops import nms
 from ..bbox import bbox_mapping_back
@@ -13,7 +12,13 @@ def merge_aug_proposals(aug_proposals, img_metas, rpn_test_cfg):
         aug_proposals (list[Tensor]): proposals from different testing
             schemes, shape (n, 5). Note that they are not rescaled to the
             original image size.
-        img_metas (list[dict]): image info including "shape_scale" and "flip".
+
+        img_metas (list[dict]): list of image info dict where each dict has:
+            'img_shape', 'scale_factor', 'flip', and my also contain
+            'filename', 'ori_shape', 'pad_shape', and 'img_norm_cfg'.
+            For details on the values of these keys see
+            `mmdet/datasets/pipelines/formatting.py:Collect`.
+
         rpn_test_cfg (dict): rpn test config.
 
     Returns:
@@ -29,9 +34,7 @@ def merge_aug_proposals(aug_proposals, img_metas, rpn_test_cfg):
                                               scale_factor, flip)
         recovered_proposals.append(_proposals)
     aug_proposals = torch.cat(recovered_proposals, dim=0)
-    nms_keep = nms(aug_proposals, rpn_test_cfg.nms_thr,
-                   aug_proposals.get_device())
-    merged_proposals = aug_proposals[nms_keep, :]
+    merged_proposals, _ = nms(aug_proposals, rpn_test_cfg.nms_thr)
     scores = merged_proposals[:, 4]
     _, order = scores.sort(0, descending=True)
     num = min(rpn_test_cfg.max_num, merged_proposals.shape[0])

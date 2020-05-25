@@ -1,6 +1,10 @@
 import mmcv
 
 
+def wider_face_classes():
+    return ['face']
+
+
 def voc_classes():
     return [
         'aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat',
@@ -63,18 +67,25 @@ def imagenet_vid_classes():
 def coco_classes():
     return [
         'person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train',
-        'truck', 'boat', 'traffic light', 'fire hydrant', 'stop sign',
-        'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep',
+        'truck', 'boat', 'traffic_light', 'fire_hydrant', 'stop_sign',
+        'parking_meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep',
         'cow', 'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella',
         'handbag', 'tie', 'suitcase', 'frisbee', 'skis', 'snowboard',
-        'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard',
-        'surfboard', 'tennis racket', 'bottle', 'wine glass', 'cup', 'fork',
+        'sports_ball', 'kite', 'baseball_bat', 'baseball_glove', 'skateboard',
+        'surfboard', 'tennis_racket', 'bottle', 'wine_glass', 'cup', 'fork',
         'knife', 'spoon', 'bowl', 'banana', 'apple', 'sandwich', 'orange',
-        'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair',
-        'couch', 'potted plant', 'bed', 'dining table', 'toilet', 'tv',
-        'laptop', 'mouse', 'remote', 'keyboard', 'cell phone', 'microwave',
+        'broccoli', 'carrot', 'hot_dog', 'pizza', 'donut', 'cake', 'chair',
+        'couch', 'potted_plant', 'bed', 'dining_table', 'toilet', 'tv',
+        'laptop', 'mouse', 'remote', 'keyboard', 'cell_phone', 'microwave',
         'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase',
-        'scissors', 'teddy bear', 'hair drier', 'toothbrush'
+        'scissors', 'teddy_bear', 'hair_drier', 'toothbrush'
+    ]
+
+
+def cityscapes_classes():
+    return [
+        'person', 'rider', 'car', 'truck', 'bus', 'train', 'motorcycle',
+        'bicycle'
     ]
 
 
@@ -82,7 +93,9 @@ dataset_aliases = {
     'voc': ['voc', 'pascal_voc', 'voc07', 'voc12'],
     'imagenet_det': ['det', 'imagenet_det', 'ilsvrc_det'],
     'imagenet_vid': ['vid', 'imagenet_vid', 'ilsvrc_vid'],
-    'coco': ['coco', 'mscoco', 'ms_coco']
+    'coco': ['coco', 'mscoco', 'ms_coco'],
+    'wider_face': ['WIDERFaceDataset', 'wider_face', 'WDIERFace'],
+    'cityscapes': ['cityscapes']
 }
 
 
@@ -97,7 +110,7 @@ def get_classes(dataset):
         if dataset in alias2name:
             labels = eval(alias2name[dataset] + '_classes()')
         else:
-            raise ValueError('Unrecognized dataset: {}'.format(dataset))
+            raise ValueError(f'Unrecognized dataset: {dataset}')
     else:
-        raise TypeError('dataset must a str, but got {}'.format(type(dataset)))
+        raise TypeError(f'dataset must a str, but got {type(dataset)}')
     return labels
