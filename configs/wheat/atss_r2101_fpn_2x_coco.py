@@ -1,6 +1,8 @@
-_base_ = [
-    '../_base_/schedules/schedule_2x.py', '../_base_/default_runtime.py'
+_base_ = [#'../_base_/datasets/coco_detection.py',
+    '../_base_/schedules/schedule_1x.py', '../_base_/default_runtime.py'
 ]
+
+
 
 dataset_type = 'CocoDataset'
 data_root = 'data/wheat/'
@@ -43,12 +45,12 @@ data = dict(
     val=dict(
         type=dataset_type,
         ann_file=data_root + 'annotations/val.json',
-        img_prefix=data_root + 'val/',
+        img_prefix=data_root + 'train/',
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
         ann_file=data_root + 'annotations/val.json',
-        img_prefix=data_root + 'val/',
+        img_prefix=data_root + 'train/',
         pipeline=test_pipeline))
 evaluation = dict(interval=1, metric='bbox')
 
@@ -56,6 +58,7 @@ evaluation = dict(interval=1, metric='bbox')
 model = dict(
     type='ATSS',
     pretrained='open-mmlab://res2net101_v1d_26w_4s',
+    #pretrained='torchvision://resnet50',
     backbone=dict(
         type='Res2Net',
         depth=101,
@@ -109,7 +112,7 @@ test_cfg = dict(
     nms_pre=1000,
     min_bbox_size=0,
     score_thr=0.05,
-    nms=dict(type='nms', iou_thr=0.6),
+    nms=dict(type='nms', iou_thr=0.5),
     max_per_img=100)
 # optimizer
-optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0001)
+optimizer = dict(type='SGD', lr=0.001, momentum=0.9, weight_decay=0.0001)
