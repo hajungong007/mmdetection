@@ -50,8 +50,8 @@ test_cfg = dict(
     nms_pre=1000,
     min_bbox_size=0,
     score_thr=0.05,
-    nms=dict(type='nms', iou_thr=0.4),
-    max_per_img=100)
+    nms=dict(type='nms', iou_thr=0.7),
+    max_per_img=200)
 # dataset settings
 dataset_type = 'CocoDataset'
 data_root = 'data/wheat/'
