@@ -152,7 +152,7 @@ def collect_results(result_part, size, tmpdir=None):
     else:
         mmcv.mkdir_or_exist(tmpdir)
     # dump the part result to the dir
-    mmcv.dump(result_part, osp.join(tmpdir, f'part_{rank}.pkl'))
+    mmcv.dump(result_part, osp.join(tmpdir, 'part_{}.pkl'.format(rank)))
     dist.barrier()
     # collect all parts
     if rank != 0:
@@ -161,7 +161,7 @@ def collect_results(result_part, size, tmpdir=None):
         # load results of all parts from tmp dir
         part_list = []
         for i in range(world_size):
-            part_file = osp.join(tmpdir, f'part_{i}.pkl')
+            part_file = osp.join(tmpdir, 'part_{}.pkl'.format(i))
             part_list.append(mmcv.load(part_file))
         # sort the results
         ordered_results = []
@@ -333,7 +333,8 @@ def main():
                 test_data_cfg['pipeline'].insert(1, corruption_trans)
 
             # print info
-            print(f'\nTesting {corruption} at severity {corruption_severity}')
+            print('\nTesting {} at severity {}'.format(corruption,
+                                                       corruption_severity))
 
             # build the dataloader
             # TODO: support multiple images per gpu
@@ -341,7 +342,7 @@ def main():
             dataset = build_dataset(test_data_cfg)
             data_loader = build_dataloader(
                 dataset,
-                samples_per_gpu=1,
+                imgs_per_gpu=1,
                 workers_per_gpu=args.workers,
                 dist=distributed,
                 shuffle=False)
@@ -395,7 +396,8 @@ def main():
                                 is supported for pascal voc')
                 else:
                     if eval_types:
-                        print(f'Starting evaluate {" and ".join(eval_types)}')
+                        print('Starting evaluate {}'.format(
+                            ' and '.join(eval_types)))
                         if eval_types == ['proposal_fast']:
                             result_file = args.out
                         else:
@@ -404,10 +406,10 @@ def main():
                                     outputs, args.out)
                             else:
                                 for name in outputs[0]:
-                                    print(f'\nEvaluating {name}')
+                                    print('\nEvaluating {}'.format(name))
                                     outputs_ = [out[name] for out in outputs]
                                     result_file = args.out
-                                    + f'.{name}'
+                                    + '.{}'.format(name)
                                     result_files = dataset.results2json(
                                         outputs_, result_file)
                         eval_results = coco_eval_with_return(

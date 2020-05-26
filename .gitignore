@@ -107,3 +107,4 @@ venv.bak/
 mmdet/ops/nms/*.cpp
 mmdet/version.py
 data
+work_dirs

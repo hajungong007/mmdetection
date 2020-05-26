@@ -1,4 +1,5 @@
 _base_ = [
+    #'../_base_/datasets/coco_detection.py',
     '../_base_/schedules/schedule_1x.py', '../_base_/default_runtime.py'
 ]
 
@@ -17,21 +18,19 @@ model = dict(
         norm_eval=True,
         style='pytorch'),
     neck=dict(
-        type='NASFCOS_FPN',
+        type='FPN',
         in_channels=[256, 512, 1024, 2048],
         out_channels=256,
-        start_level=0,
-        add_extra_convs=True,
-        num_outs=5,
-        norm_cfg=dict(type='BN'),
-        conv_cfg=dict(type='DCNv2', deformable_groups=2)),
+        add_extra_convs='on_output',  # use P5
+        start_level=1,
+        num_outs=5),
     bbox_head=dict(
         type='FCOSHead',
         num_classes=1,
         in_channels=256,
         stacked_convs=4,
         feat_channels=256,
-        strides=[4, 8, 16, 32, 64],
+        strides=[8, 16, 32, 64, 128],
         norm_cfg=dict(type='GN', num_groups=32),
         loss_cls=dict(
             type='FocalLoss',
@@ -39,7 +38,7 @@ model = dict(
             gamma=2.0,
             alpha=0.25,
             loss_weight=1.0),
-        loss_bbox=dict(type='GIoULoss', loss_weight=1.0),
+        loss_bbox=dict(type='IoULoss', loss_weight=1.0),
         loss_centerness=dict(
             type='CrossEntropyLoss', use_sigmoid=True, loss_weight=1.0)))
 
@@ -112,3 +111,8 @@ evaluation = dict(interval=1, metric='bbox')
 
 optimizer = dict(
     lr=0.01, paramwise_cfg=dict(bias_lr_mult=2., bias_decay_mult=0.))
+optimizer_config = dict(
+    _delete_=True, grad_clip=dict(max_norm=35, norm_type=2))
+# learning policy
+lr_config = dict(warmup='constant')
+

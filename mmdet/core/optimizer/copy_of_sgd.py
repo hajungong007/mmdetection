@@ -1,9 +1,9 @@
 from torch.optim import SGD
 
-from .builder import OPTIMIZERS
+from .registry import OPTIMIZERS
 
 
-@OPTIMIZERS.register_module()
+@OPTIMIZERS.register_module
 class CopyOfSGD(SGD):
     """A clone of torch.optim.SGD.
 
