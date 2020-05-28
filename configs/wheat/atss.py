@@ -50,14 +50,14 @@ test_cfg = dict(
     nms_pre=1000,
     min_bbox_size=0,
     score_thr=0.05,
-    nms=dict(type='nms', iou_thr=0.7),
+    nms=dict(type='nms', iou_thr=0.5),
     max_per_img=200)
 # dataset settings
-dataset_type = 'CocoDataset'
+dataset_type = 'WheatDataset'
 data_root = 'data/wheat/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
-
+'''
 albu_train_transforms = [
     dict(
         type='RandomBrightnessContrast',
@@ -126,14 +126,14 @@ train_pipeline = [
 train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
-    dict(type='Resize', img_scale=[(1333, 800), (1333, 1024)], keep_ratio=True),
+    dict(type='Resize', img_scale=[(1333, 800), (1024, 1024)], keep_ratio=True),
     dict(type='RandomFlip', flip_ratio=0.5),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='Pad', size_divisor=32),
     dict(type='DefaultFormatBundle'),
     dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels']),
 ]
-'''
+
 
 
 
@@ -180,7 +180,7 @@ lr_config = dict(
     warmup='linear',
     warmup_iters=500,
     warmup_ratio=1.0 / 3,
-    step=[8, 11])
+    step=[12, 16])
 checkpoint_config = dict(interval=1)
 # yapf:disable
 log_config = dict(
@@ -191,7 +191,7 @@ log_config = dict(
     ])
 # yapf:enable
 # runtime settings
-total_epochs = 12
+total_epochs = 18
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 work_dir = './work_dirs/atss'

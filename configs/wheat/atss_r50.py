@@ -7,8 +7,8 @@ model = dict(
         depth=50,
         num_stages=4,
         out_indices=(0, 1, 2, 3),
-        frozen_stages=1,
-        norm_cfg=dict(type='BN', requires_grad=True),
+        frozen_stages=2,
+        norm_cfg=dict(type='BN', requires_grad=False),
         style='pytorch'),
     neck=dict(
         type='FPN',
@@ -52,7 +52,7 @@ test_cfg = dict(
     nms=dict(type='nms', iou_thr=0.6),
     max_per_img=100)
 # dataset settings
-dataset_type = 'CocoDataset'
+dataset_type = 'WheatDataset'
 data_root = 'data/wheat/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
